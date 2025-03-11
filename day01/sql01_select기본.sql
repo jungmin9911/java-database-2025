@@ -146,6 +146,29 @@ SELECT *
   FROM employees
 ORDER BY salary ASC;
 
+SELECT *
+  FROM employees
+ORDER BY commission_pct ASC;
+
+SELECT *
+  FROM employees
+ORDER BY job_id ASC, salary DESC;
+
+/*
+ * 집합 - UNION, UNION ALL, INTERSECT, MINUS
+ */
+-- SELECT * FROM DEPARTMENTS d
+-- departments에서 departement_id가 50 이하인 부서아이디와 부서명 데이터
+-- employees에서 employee_id가 110에서 150 사이인 직원 아이디와 직원명(first_name || last_name)을 출력하시오
+SELECT department_id, department_name
+  FROM departments
+ WHERE department_id <= 50
+ UNION
+SELECT employee_id, first_name || last_name AS "full_name"
+  FROM employees
+ WHERE employee_id BETWEEN 110 AND 150;
+
+
 
 
 
