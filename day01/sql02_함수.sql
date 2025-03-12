@@ -24,3 +24,4 @@ SELECT LENGTH('Hello oracle')		-- 글자 길이가 12
 -- CONCAT()
 SELECT CONCAT(CONCAT(first_name, ' '), last_name) AS "full_name"
   FROM employees;
+
