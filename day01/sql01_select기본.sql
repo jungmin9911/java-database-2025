@@ -8,7 +8,8 @@ SELECT * -- asterik -> all로 읽음. 모든 컬럼을 다 보여라
 -- 실행 단축키 Ctrl + Enter
 
 -- 02. HR.employees 중 employees_id, first_name, last_name, email, hire_date를 출력하라 (107행)
-SELECT employee_id, first_name, last_name, email, hire_date FROM EMPLOYEES;
+SELECT employee_id, first_name, last_name, email, hire_date 
+  FROM EMPLOYEES;
 
 -- 03. 02번의 쿼리를 컬럼명을 변경해서 출력하시오. "직원번호", "이름", "성", "이메일","입사일자"로 변경하시오 (107행)
 -- alia 별명
@@ -99,7 +100,7 @@ SELECT *
 -- NULL비교
 SELECT *
   FROM employees
- WHERE commission_pct = NULL;
+ WHERE commission_pct = NULL;  -- 안 먹음
 
 SELECT *
   FROM employees
@@ -110,6 +111,8 @@ SELECT *
  WHERE commission_pct IS NOT NULL;
 
 -- LIKE 문자열 패턴으로 검색
+-- % : 0개 이상의 문자와 일치
+-- _ : 정확히 1개의 문자와 일치
 SELECT *
   FROM employees
  WHERE job_id LIKE '%MAN'; -- MAN으로 끝나는 패턴을 가진 문자열을 찾아라
@@ -154,19 +157,17 @@ SELECT *
   FROM employees
 ORDER BY job_id ASC, salary DESC;
 
-/*
- * 집합 - UNION, UNION ALL, INTERSECT, MINUS
- */
+/* 집합 - UNION, UNION ALL, INTERSECT, MINUS */
 -- SELECT * FROM DEPARTMENTS d
 -- departments에서 departement_id가 50 이하인 부서아이디와 부서명 데이터
 -- employees에서 employee_id가 110에서 150 사이인 직원 아이디와 직원명(first_name || last_name)을 출력하시오
 SELECT department_id, department_name
   FROM departments
- WHERE department_id <= 50
+ WHERE department_id <= 50  -- 5행까지는 department_id
  UNION
 SELECT employee_id, first_name || last_name AS "full_name"
   FROM employees
- WHERE employee_id BETWEEN 110 AND 150;
+ WHERE employee_id BETWEEN 110 AND 150;  -- 6행부터 employee_id
 
 
 

@@ -1,5 +1,6 @@
 /* 단일행함수 */
 
+-- CONCAT() 문자열 연결
 SELECT CONCAT('Hello', 'Oracle')  -- 한 행에 한 열만 출력되는 값 = 스칼라(Scalar)값
   FROM dual;
 
@@ -14,7 +15,7 @@ SELECT substr(email, 1, 2)  -- 앞에서 2자리까지
 
 -- INSTR(체크할 문자열, 찾는글자, 시작위치, 몇번째)
 SELECT '010-9999-8888'
-	 , instr('010-9999-8888', '-', 1, 2)
+	 , instr('010-9999-8888', '-', 1, 2)  -- 하이픈의 첫번째 시작위치에서 2번째로 나오는값 위치
   FROM dual;
 
 -- LPAD(문자열, 자리수, 채울문자)
@@ -84,11 +85,10 @@ SELECT to_char(sysdate + INTERVAL '9' HOUR, 'YYYY-MM-DD HH24:MI:SS') AS seoul_ti
   FROM dual;
 
 /* 형 변환 함수 */
--- TO_CHAR()
--- 숫자형을 문자형으로 변경
+-- TO_CHAR() 숫자형을 문자형으로 변경
 SELECT 12345 AS 원본
 	 , to_char(12345, '9999999') AS "원본+두자리빈자리"
-	 , to_char(12345, '09999999') AS "원본+두자리0"
+	 , to_char(12345, '0999999') AS "원본+두자리0"
 	 , to_char(12345, '$99999') AS "통화단위+원본"
 	 , to_char(12345, '99999.99') AS "소수점"
 	 , to_char(12345, '99,999') AS "천단위쉼표" -- 자주 쓰임
@@ -102,7 +102,7 @@ SELECT '5.0' * 5
 
 -- TO_DATE() 날짜형태를 문자형으로
 SELECT '2025-03-12'  -- 여기서는 바로 연산 불가
-	 , to_date('2025-03-12') + 10  -- 날짜형으로 바꾸면 연산 가능 (10일 뒤 날짜 출력됨)
+	 , to_date('2025-03-12') + 10  -- 문자형으로 바꾸면 연산 가능 (10일 뒤 날짜 출력됨)
   FROM dual;
 
 /* 일반함수 */
@@ -112,7 +112,7 @@ SELECT commission_pct
   FROM employees;
 
 SELECT nvl(hire_date, sysdate)
-  FROM employees;
+  FROM employees;  -- 날짜(hire_date)가 null이면 오늘 날짜로 치환
 
 -- NVL2(컬럼|데이터, 널이아닐때 처리, 널일때 처리할 부분)
 SELECT commission_pct
@@ -120,7 +120,7 @@ SELECT commission_pct
 	 , nvl2(commission_pct, salary + (salary * commission_pct), salary) AS 커미션급여
   FROM employees;
 
--- DECODE(A, B, '1', '2') A가 B일 경우 1 아니면 2
+-- DECODE(A 컬럼명, B 데이터값, '1', '2') A가 B일 경우 1 아니면 2
 -- 오라클만 있는 특징
 SELECT email, phone_number, job_id
 	 , DECODE(job_id, 'IT_PROG', '개발자만세', '나머진 다 죽어') AS 캐치프레이즈
@@ -141,12 +141,14 @@ SELECT CASE job_id WHEN 'AD_PRES' THEN '사장'
 
 /* 정규식(Regula Expression) - 문자열 패턴을 가지고, 동일한 패턴 데이터 추출 사용
  * ^, $, ., *, [], [^] 패턴 인식할 때 필요한 키워드 */
+-- 잘못된 코드
 SELECT *
   FROM employees
  WHERE phone_number LIKE '%.%.%';  -- 세자리 전화번호, 네자리 전화번호가 구분 안 됨
 
- -- 전화번호가 .로 구분되는 세자리 전화번호만 필터링
- -- '[1-9]{6}-[1-9]{7}' 주민번호 정규식 패턴
+-- REGEXP_LIKE : LIKE보다 강력한 정규 표현식 기반 문자열 검색 지원
+-- 전화번호가 .로 구분되는 세자리 전화번호만 필터링
+-- '[0-9]{6}-[0-9]{7}' 주민번호 정규식 패턴
 SELECT *
   FROM employees
  WHERE REGEXP_LIKE (phone_number, '[0-9]{3}.[0-9]{3}.[0-9]{4}');
@@ -155,5 +157,12 @@ SELECT *
 SELECT *
   FROM employees
  WHERE REGEXP_LIKE (first_name, '^J(a|o)');
+/* REGEXP_LIKE 다른 연산 종류
+ * 1. OR : REGEXP_LIKE(first_name, 'John|Jane|James') - 셋 중 하나인 데이터 검색
+ * 2. ^ : REGEXP_LIKE(first_name, '^J') - J로 시작하는 값
+ * 3. $ : REGEXP_LIKE(first_name, 'n$') - n으로 끝나는 값 
+ * 등등... 많지만 여기까지만...
+ */
+
 
 

@@ -1,6 +1,5 @@
 /* 내장함수 */
-
- -- 문자(열)함수 
+-- 문자(열)함수 
 
 -- INITCAP() 단어 첫글자만 대문자로
 SELECT initcap('hello oracle') AS "result"
