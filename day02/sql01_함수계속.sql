@@ -34,6 +34,7 @@ SELECT '<<<' || '     Hello Oracle     ' || '>>>'
   FROM dual;
 
 -- REPLACE(), 파이썬과 동일
+-- 내용 바꾸기
 SELECT phone_number
 	 , replace(phone_number, '123', '786')  -- 자주 쓰임
   FROM employees;
@@ -50,7 +51,7 @@ SELECT 786.5427 AS res1
 	 , ceil(786.5427) AS ceilRes  -- 올림
 	 , floor(786.5427) AS floorRes  -- 내림
 	 , trunc(786.5427, 3) AS truncRes  -- 반올림 없이 3번째 자리까지 출력
-	 , mod(10, 3) AS truncRes 
+	 , mod(10, 3) AS truncRes  -- 나머지 출력
 	 , power(2, 10) AS "2의 10승"
   FROM dual;
 
@@ -73,7 +74,7 @@ SELECT sysdate AS 오늘날짜 -- GMT기준, +09필요
 -- ADD_MONTHS() 월을 추가함수
 SELECT hire_date
 	 , to_char(hire_date, 'yyyy-mm-dd') AS 입사일자
-	 , add_months(hire_date, 3) AS 정규직일자
+	 , add_months(hire_date, 3) AS 정규직일자  -- 3달 더한 값이 나옴
 	 , next_day(hire_date, '월') AS 돌아오는월요일  -- 'MON' == '월'
 	 , last_day('2025-02-01') AS 달마지막날
   FROM employees;
