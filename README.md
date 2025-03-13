@@ -125,6 +125,7 @@ Java 개발자 과정 Database 리포지터리
         - FK(Foreign Key) - 외래키 / 다른 엔티티(테이블)의 PK, 두 엔티티의 관계를 연결해주는 값
         - Relationship - 부모 엔티티와 자식 엔티티간의 연관, 부모1, 자식N을 가질 수 있음
     - 카티션곱
-    - 내부조인, 외부조인
+    - 내부조인
+    - 외부조인
 - DDL
     - CREATE, ALTER, DROP
