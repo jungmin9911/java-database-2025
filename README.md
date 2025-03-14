@@ -163,10 +163,41 @@ Java 개발자 과정 Database 리포지터리
         ```
 
 ## 4일차
+- VS Code DB플러그인
+    - 확장 > Database Client(Weijan Chen) > 좌측 메뉴 확장중 Database 선택
+    
+    <img src="./image/db002.png" width="700">
+
 - DML
-    - INSERT
-    - UPDATE
-    - DELETE
+    - INSERT - 테이블에새로운 데이터를 삽입하는 명령
+        - 한 건씩 삽입
+        ```sql
+        INSERT INTO 테이블명 [(컬럼리스트)]
+        VALUES (값리스트);
+        ```
+        - 여러건 한꺼번에 삽입
+    - UPDATE - 데이터 변경 (WHERE 조건 없이 실행하면 테이블의 모든 데이터가 수정됨)
+        ```sql
+        UPDATE 테이블명 SET
+            컬럼명 = 변경할값,
+            [컬럼명 = 변경할값] -- 반복
+        [WHERE 조건]
+        ```
+    - DELETE - 데이터 삭제 (WHERE 조건 없이 실행하면 테이블의 모든 데이터가 삭제됨)
+        ```sql
+        DELETE FROM 테이블명
+        [WHERE] 조건;
+        ```
+- 트랜잭션
+    - 논리적인 처리단위
+    - 은행에서 돈을 찾을때 아주 많은 테이블 접근해서 일을 처리
+        - 적어도 일곱여덟개 이상의 테이블 접근해서 조회하고 업데이트 수행
+        - 제대로 일이 처리 안 되면 다시 원상복구
+        ```sql
+        BEGIN TRANSACTION;  -- 트랜잭션 시작
+        COMMIT;  -- 트랜잭션 확정
+        ROLLBACK;  -- 원상복구
+        ```
 - 제약조건
 - INDEX
 - VIEW
