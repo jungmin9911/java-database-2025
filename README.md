@@ -198,7 +198,13 @@ Java 개발자 과정 Database 리포지터리
         COMMIT;  -- 트랜잭션 확정
         ROLLBACK;  -- 원상복구
         ```
-- 제약조건
+- 제약조건(CONSTRAINT)
+    - 잘못된 데이터가 들어가지 않도록 막는 기법
+        - PK : 기본키, UNIQUE NOT NULL, 중복되지 않고 없어도 안 됨
+        - FK : 외래키, 다른 테이블의 PK에 없는 값을 가져다 쓸 수 없음
+        - NOT NULL : 값이 빠지면 안 됨
+        - UNIQUE : 들어간 데이터가 중복되면 안 됨
+        - CHECK : 기준에 부합하지 않는 데이터는 입력되면 안됨
 - INDEX
 - VIEW
 - 서브쿼리
