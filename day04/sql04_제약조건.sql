@@ -8,6 +8,8 @@ CREATE TABLE new_emp(
 	dcode	VARCHAR2(6) REFERENCES dept2(dcode)
 );
 
+SELECT * FROM new_emp;
+
 -- 이름에 UNIQUE 제약조건을 추가로 걸때
 ALTER TABLE new_emp
   ADD CONSTRAINT uk_name UNIQUE(name);
