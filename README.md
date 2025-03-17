@@ -276,5 +276,6 @@ Java 개발자 과정 Database 리포지터리
     -- 권한 해제
     REVOKE 권한|롤 FROM 사용자;
     ```
-    
+
 ## 6일차
+- PL/SQL - ORACLE에서 파이썬처럼 코딩
