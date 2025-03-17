@@ -158,6 +158,75 @@ SELECT e.empno, e.name, e.deptno, d.dname AS "부서명"
 -- 스칼라 서브쿼리를 쓰면 where검색을 700만건 수행
 SELECT e.empno, e.name, e.deptno
 	 , (SELECT dname FROM dept2 WHERE dcode = e.deptno) AS "부서명"
+	 , (SELECT area FROM dept2 WHERE dcode = e.deptno) AS "지역"
   FROM emp2 e;
+-- 여기까지 스칼라(select절) 서브쿼리
+
+-- from절 서브쿼리
+SELECT *
+  FROM emp2;
+
+SELECT empno, name, birthday
+	 , deptno, emp_type, tel
+  FROM emp2;
+
+-- from절에 소괄호 내에 서브쿼리를 작성하는 방식
+SELECT es.empno, es.name
+  FROM (SELECT empno, name, birthday
+			 , deptno, emp_type, tel
+		  FROM emp2) es;
+
+SELECT grpP.deptno, grpP.paySum
+  FROM (SELECT deptno, sum(pay) AS paySum
+		  FROM emp2
+		 GROUP BY deptno) grpP;
+
+-- 각 부서별 평균연복
+SELECT grpP.deptno, grpP.payAvg
+  FROM (SELECT DEPTNO , avg(pay) AS payAvg
+		  FROM emp2
+		 GROUP BY deptno) grpP;
+  
+-- emp2와 위에서 구한 값을 조인해서 평균연봉보다 얼마씩 차이가 나는지
+SELECT e.name, e.empno, e.POSITION, e.deptno, e.pay, g.payAvg
+	 , (e.pay - g.payAvg) AS "평균연봉차액"
+  FROM emp2 e, (SELECT deptno, avg(pay) AS payAvg
+				  FROM emp2
+				 GROUP BY deptno) g		-- g는 가상테이블
+ WHERE e.deptno = g.deptno;
+
+-- with절로 가상테이블 형태 서브쿼리
+WITH g1 AS
+(
+	SELECT deptno, avg(pay) AS payAvg
+	  FROM emp2
+ 	 GROUP BY deptno
+)
+SELECT e.name, e.empno, e.POSITION, e.deptno, e.pay, g1.payAvg
+	 , (e.pay - g1.payAvg) AS "평균연봉차액"
+  FROM emp2 e, g1
+ WHERE e.deptno = g1.deptno;
+
+-- 11번 12번은 차이가 없음
+
+-- where절 서브쿼리 > from절 서브쿼리 > select절 서브쿼리(사용자 정의함수로 대체)
+
+-- 서브쿼리 사용시 NULL값 처리
+INSERT INTO emp2 (empno, name, birthday, deptno, emp_type, tel)
+VALUES (20200000219, 'Ray Osmond', '1988-03-22', '999', 'Intern', '02)909-2345');
+-- 커밋 필수
+
+SELECT * FROM emp2;
+
+-- 각 직원의 부서명을 같이 출력하라
+SELECT name, deptno, nvl((SELECT dname FROM dept2 WHERE dcode = emp2.deptno), '부서명없음') AS "부서명"
+  FROM emp2
+ ORDER BY deptno, name;
+
+-- 위의 쿼리 조인으로 변경가능
+SELECT e.name, e.deptno, nvl(d.dname, '부서명없음') AS "부서명"
+  FROM emp2 e, dept2 d
+ WHERE e.deptno = d.dcode(+)
+ ORDER BY deptno, name;
 
 COMMIT;

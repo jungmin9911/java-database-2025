@@ -52,3 +52,5 @@ AS
 
 -- 조회
 SELECT * FROM V_emp3;
+
+COMMIT;
