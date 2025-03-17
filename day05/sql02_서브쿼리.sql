@@ -1,0 +1,163 @@
+/* 서브쿼리 */
+SELECT * FROM student;
+SELECT * FROM department;
+
+-- join으로 두 테이블을 검색
+SELECT s.name, d.dname
+  FROM student s, department d
+ WHERE s.deptno1 = d.deptno
+   AND s.deptno1 = 103;
+
+-- Anthony Hopkins 학생과 같은 학과에 다니는 학생을 모두 조회
+SELECT s.name, d.dname
+  FROM student s, department d
+ WHERE s.deptno1 = d.deptno
+   AND s.deptno1 = (SELECT deptno1 
+					  FROM student 
+					 WHERE name = 'Anthony Hopkins');	-- 학생 이름따라 학과번호 변경 가능
+
+-- where절 서브쿼리에서 =로 비교할때 주의점
+-- where절 서브쿼리는 다중행이 되면 안 됨
+SELECT s.name, d.dname
+  FROM student s, department d
+ WHERE s.deptno1 = d.deptno
+   AND s.deptno1 = (SELECT deptno1 
+					  FROM student);
+
+-- 특정교수의 입사일보다 뒤에 입사한 교수들의 정보 출력
+SELECT * FROM professor;
+SELECT * FROM department;
+
+-- 조인되는 쿼리부터 생성
+-- Meg Ryan 입사일자로 비교
+SELECT p.name AS "PROF_NAME"
+	 , p.hiredate
+	 , d.dname AS "DEPT_NAME"
+  FROM professor p, department d
+ WHERE p.deptno = d.deptno
+   AND p.hiredate > (SELECT hiredate
+					   FROM professor
+					  WHERE name = 'Meg Ryan');
+
+SELECT hiredate
+  FROM professor
+ WHERE name = 'Meg Ryan';	-- 스칼라값
+
+COMMIT;
+
+-- 다중행 서브쿼리
+-- IN 서브쿼리 결과와 같은 값 여러개 (OR와 동일)
+-- EXISTS 서브쿼리의 값이 있는 경우 메인쿼리를 수행
+-- >ANY 서브쿼리 최소값보다 메인쿼리의 큰값을 조회
+-- <ANY 서브쿼리 최대값보다 메인쿼리의 작은값을 조회
+-- >ALL 서브쿼리 최대값보다 메인쿼리의 큰값을 조회
+-- <ALL 서브쿼리 최소값보다 메인쿼리의 작은값을 조회
+
+-- 지역이 Pohang Main Office인 부서코드에 해당하는 직원들의 사번, 이름, 부서번호를 출력하시오
+SELECT dcode
+  FROM dept2
+ WHERE area = 'Pohang Main Office';
+
+-- 
+SELECT empno, name, deptno
+  FROM emp2
+ WHERE deptno IN (SELECT dcode
+				   FROM dept2
+				  WHERE area = 'Pohang Main Office');
+
+-- emp2 테이블에서 'Section head' 직급의 최소연봉보다 연봉이 높은 사람의 이름, 직급, 연봉을 출력하시오
+-- 단, 연봉은 $78,000,000 식으로 출력할 것
+-- null값 있는 데이터 삭제
+DELETE FROM emp2 WHERE name = 'Tom Halland';
+COMMIT;
+
+SELECT * FROM emp2;
+SELECT * FROM dept2;
+
+-- 서브쿼리 min 함수로 최소값을 찾고 스칼라에서 비교연산
+SELECT name, POSITION
+	 , to_char(pay, '$999,999,999') AS "SALARY"
+  FROM emp2
+ WHERE pay > (SELECT min(pay)
+			    FROM emp2 
+			   WHERE POSITION = 'Section head');
+
+-- >ANY로 서브쿼리 다중행에서 최소값
+SELECT name, POSITION
+	 , to_char(pay, '$999,999,999') AS "SALARY"
+  FROM emp2
+ WHERE pay > ANY (SELECT pay
+				    FROM emp2 
+			       WHERE POSITION = 'Section head');
+
+-- 다중 컬럼 서브쿼리, 파이썬 튜플과 동일
+-- 1~4학년 중 몸무게가 가장 많이 나가는 학생의 정보를 출력하라 (4행)
+SELECT grade, name, height, weight
+  FROM student
+ WHERE (grade, weight) IN (SELECT grade, max(weight)
+						     FROM student
+ 						    GROUP BY grade);
+ 
+SELECT grade, max(weight)
+  FROM student
+ GROUP BY grade
+
+-- 연습문제1
+-- 교수테이블과 학과테이블(department)을 조회하여 학과별로 입사일이 가장 오래된 교수의 교수번호, 이름, 학과명을 입사일 순으로 출력하시오
+SELECT * FROM professor;
+SELECT * FROM department;
+
+SELECT p.profno AS "교수번호"
+	 , p.name AS "교수명"
+	 , d.dname AS "학과명"
+	 , to_char(p.hiredate, 'YYYY-MM-DD') AS "입사일"
+  FROM professor p, department d
+ WHERE p.deptno = d.deptno
+   AND(p.deptno, p.hiredate) IN (SELECT deptno, min(hiredate)
+ 								   FROM professor
+ 							   	  WHERE deptno IS NOT NULL
+	 							  GROUP BY deptno)
+ ORDER BY p.hiredate ASC;
+
+SELECT deptno, min(hiredate)
+  FROM professor
+ WHERE deptno IS NOT NULL
+ GROUP BY deptno;
+
+-- 상호연관 쿼리 메인쿼리의 컬럼이 서브쿼리의 조건에 들어가는 경우
+-- 전체 20의 평균연봉
+SELECT b.position, AVG(b.pay)
+  FROM emp2 b
+ GROUP BY b.POSITION;
+
+SELECT AVG(b.pay)
+  FROM emp2 b;
+
+-- 상호연관쿼리로 작성
+SELECT a.name, a.POSITION, a.pay
+  FROM emp2 a
+ WHERE a.pay >= (SELECT AVG(b.pay)
+ 				   FROM emp2 b
+ 				  WHERE b.POSITION = a.position);
+
+COMMIT;
+-- 여기까지 where절 서브쿼리
+
+-- 스칼라 서브쿼리, select절 서브쿼리
+-- 부서명을 같이 보려면 join을 해야함
+SELECT *
+  FROM emp2 e;
+
+-- 조인은 건수가 만약 700만건이라해도 조인은 한번만 수행
+SELECT e.empno, e.name, e.deptno, d.dname AS "부서명"
+  FROM emp2 e, dept2 d
+ WHERE e.deptno = d.dcode;
+
+-- 조인없이 스칼라 서브쿼리로 해결
+-- 조인으로 되는 값을 서브쿼리로 쓰면 성능에 악영향을 끼침
+-- 스칼라 서브쿼리를 쓰면 where검색을 700만건 수행
+SELECT e.empno, e.name, e.deptno
+	 , (SELECT dname FROM dept2 WHERE dcode = e.deptno) AS "부서명"
+  FROM emp2 e;
+
+COMMIT;
