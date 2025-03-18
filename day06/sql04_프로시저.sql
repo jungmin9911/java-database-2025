@@ -13,3 +13,6 @@ BEGIN
 	DBMS_OUTPUT.PUT_LINE('Name is ' || v_ename);
 	DBMS_OUTPUT.PUT_LINE('Salary is ' || v_sal);
 END ENAME_SAL;
+
+-- COMMIT; 하면 안 됨... 왜인지는 모름
+ROLLBACK;

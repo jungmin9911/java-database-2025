@@ -13,3 +13,5 @@ BEGIN
 
 	RETURN deptname;	-- 꼭 써줘야됨
 END GET_DNAME;
+
+-- 실행은 sql10 파일에서

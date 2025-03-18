@@ -12,11 +12,9 @@ END;
 
 SELECT * FROM emp;
 
--- 프로시저 실행
-CALL update_30;
+COMMIT;
+ROLLBACK;
 
 -- 프로시저 실행
-CALL UP_SAL(7900);
-
-COMMIT; 
--- 이건 안 되는데 일단 저장;;
+-- 프로시저랑 실행코드가 같은 파일 내에 있으면 오류
+CALL update_30();

@@ -1,4 +1,4 @@
--- 특정부서 최고 급여
+-- 특정부서 최고 급여 리턴 함수
 CREATE OR REPLACE FUNCTION MAX_SAL
 (
 	v_deptno	emp.deptno%TYPE
@@ -13,3 +13,5 @@ BEGIN
 
 	RETURN max_sal;
 END MAX_SAL;
+
+-- 실행은 sql10 파일에서
