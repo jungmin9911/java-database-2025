@@ -308,6 +308,11 @@ Java 개발자 과정 Database 리포지터리
             PL/SQL Block;
             /
             ```
+            - 실행시 EXEC 사용
+            ```sql
+            CALL 프로시저명(파라미터);
+            EXEC 프로시저명(파라미터);  -- DBeaver에서 사용불가
+            ```
         - 함수
             - 스칼라값을 리턴할때 - Select절 서브쿼리와 기능이 동일
             - 개발자에게 편의성을 제공하기 위해서 만듦
@@ -320,5 +325,26 @@ Java 개발자 과정 Database 리포지터리
             RETURN datatype
             IS | AS
             PL/SQL Block
+            ```
+            - 실행시 SELECT문 등 DML문과 같이 사용
+            ```sql
+            SELECT */함수명(파라미터)
+              FROM 컬럼명;
+            ```
+        - 커서
+            - DB에서 테이블에 들어있는 데이터를 한줄씩 읽기 위해 필요
+            ```sql
+            CURSOR 커서명 IS
+                SELECT 쿼리;
+            ```
+        - 트리거
+            - 특정 동작으로 다른 테이블에 자동으로 데이터가 변경되는 기능
+            - 한가지 동작에 대해서 연쇄적으로 다른일 발생
+            ```sql
+            CREATE OR REPLACE TRIGGER 트리거명
+            BOFORE|AFTER INSERT|UPDATE|DELETE ON 테이블{뷰}이름
+            BEGIN
+                PL/SQL쿼리
+            END;
             ```
 
