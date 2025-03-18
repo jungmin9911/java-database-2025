@@ -5,10 +5,9 @@ CREATE OR REPLACE PROCEDURE UPDATE_30
 IS
 BEGIN
 	UPDATE emp SET
-		   job = 'MANAGER'
+		   job = 'SALESMAN'
 	 WHERE deptno = 30;
 END;
-/
 
 SELECT * FROM emp;
 
@@ -16,5 +15,4 @@ COMMIT;
 ROLLBACK;
 
 -- 프로시저 실행
--- 프로시저랑 실행코드가 같은 파일 내에 있으면 오류
 CALL update_30();
