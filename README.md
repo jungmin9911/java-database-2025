@@ -226,15 +226,15 @@ Java 개발자 과정 Database 리포지터리
         - 보조(Non-Clustered) 인덱스 (여러개)
             - 사용자가 추가하는 인덱스
             - 클러스터드 인덱스보다 조금 느림
-        - 유의점
-            - PK에 자동 인덱스 후 컬럼에 UNIQUE를 걸어도 인덱스가 생성 안 됨. 수동으로 생성필요
-            - WHERE절에서 검색하는 컬럼은 인덱스를 걸어주는 것이 성능향상에 도움
-            - 인덱스는 한 테이블당 4개이상 걸면 성능 저하
-            - NULL값, 중복값이 많은 컬럼에 인덱스는 성능 저하
-            - INSERT, UPDATE, DELETE가 많이 발생하는 테이블에 인덱스를 걸면 성능 저하
-            ```sql
-            CREATE INDEX 인덱스명 ON 테이블명(인덱스컬럼명)
-            ```
+    - 유의점
+        - PK에 자동 인덱스 후 컬럼에 UNIQUE를 걸어도 인덱스가 생성 안 됨. 수동으로 생성필요
+        - WHERE절에서 검색하는 컬럼은 인덱스를 걸어주는 것이 성능향상에 도움
+        - 인덱스는 한 테이블당 4개이상 걸면 성능 저하
+        - NULL값, 중복값이 많은 컬럼에 인덱스는 성능 저하
+        - INSERT, UPDATE, DELETE가 많이 발생하는 테이블에 인덱스를 걸면 성능 저하
+        ```sql
+        CREATE INDEX 인덱스명 ON 테이블명(인덱스컬럼명)
+        ```
 
 ## 5일차
 - VIEW : [뷰쿼리](./day05/sql01_뷰.sql)
@@ -279,3 +279,46 @@ Java 개발자 과정 Database 리포지터리
 
 ## 6일차
 - PL/SQL - ORACLE에서 파이썬처럼 코딩
+    - 오라클에서 프로그램을 하기위한 언어
+    - 기본구조
+            - 선언부(DECLARE), 실행부(BEGIN~END), 예외처리(EXCEPTION) 구성
+        - Oracle 스키마 중 Pakages, Procedures, Functions이 PL/SQL로 작업하는 영역
+            - 저장된 (Stored) PL/SQL
+        - 결과화면에 출력하려면 명령어를 실행하고 PL/SQL로 수행해야함
+            ```sql
+            SET SERVEROUTPUT ON; -- 화면 출력기능 활성화
+            SHOW ERRORS;         -- 오류 상세내용 보기
+            ```
+        
+    - Stored Procedure Function을 만들기위해 사용
+        - 저장프로시저
+            - 한꺼번에 많은 일을 수행해야할때 (Transaction당 수행되는 로직들 묶어서)
+            - ex)한번에 5개의 테이블에서 조회와 DML을 처리해야한다
+                - 쿼리를 최소 10개 수행해야함 
+                - 프로시저를 한번만 수행해서 해결할 수 있음
+            - 중대형 IT솔루션에서는 프로시저가 거의 필수
+            ```sql
+            CREATE OR REPLACE PROCEDURE 프로시저명
+            (
+                param1 datatype1,
+                param2 datatype2,
+                ...
+            )
+            IS | AS
+            PL/SQL Block;
+            /
+            ```
+        - 함수
+            - 스칼라값을 리턴할때 - Select절 서브쿼리와 기능이 동일
+            - 개발자에게 편의성을 제공하기 위해서 만듦
+            ```sql
+            CREATE REPLACE 함수명
+            (
+                param1 datatype,
+                ...
+            )
+            RETURN datatype
+            IS | AS
+            PL/SQL Block
+            ```
+
