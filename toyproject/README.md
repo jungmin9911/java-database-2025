@@ -31,6 +31,7 @@ Python GUI - Oracle연동 프로그램
 3. PyQt 위젯 사용법(레이블, 버튼, ...)
 4. 시그널(이벤트) 처리방법
 5. QtDesigner로 화면 디자인 후 PyQt와 연동
+
     <img src="../image/qt001.png" width="600">
 
 #### Oracle 연동 GUI개발 시작
@@ -97,9 +98,13 @@ Python GUI - Oracle연동 프로그램
         - 압축해제(C:\Dev\Tool\instantclient_11_2), 시스템정보 Path 등록
         - 재부팅
     - 콘솔 테스트 결과
+
         <img src="../image/db004.png">
+
 - QtDesigner로 화면 구성
+
     <img src="../image/db005.png" width="750">
+
 - PyQt로 Oracle 연동 CRUD 구현
     - 조회 SELECT 구현
     - 삽입 INSERT 구현
@@ -107,6 +112,7 @@ Python GUI - Oracle연동 프로그램
     - 입력값 검증(Validation check) 로직
     - DML이 종료된 후 다시 데이터 로드 로직 추가
     - 데이터 삽입 후 라인에디트에 기존 입력값이 남아있는 것 제거
+    
     <img src="../image/db011.png" width="650">
 
 - 개발도중 문제
@@ -115,6 +121,7 @@ Python GUI - Oracle연동 프로그램
 
 - 개발완료 화면
     - 아이콘 변경 및 추가
+    
     <img src="../image/db012.png" width="650">
 
 ### 데이터베이스 모델링
@@ -143,7 +150,9 @@ Python GUI - Oracle연동 프로그램
         - 엔티티의 테이블 입력
         - 각 속성의 컬럼명 입력
         - DB에 맞게 타입과 크기를 변경(Oracle, MySQL 등)
+        
         <img src="../image/db013.png" width="800">
+
     4. 내보내기
         - DB를 변경
         - PK 제약조건, FK 제약조건, 비식별 제약조건 선택해서
@@ -153,4 +162,6 @@ Python GUI - Oracle연동 프로그램
         - 내보내기한 SQL 오픈
         - 스크립트 실행
         - ER다이어그램 그리기
+        
         <img src="../image/db014.png" width="800">
+        
