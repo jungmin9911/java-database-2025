@@ -83,4 +83,57 @@ SELECT *
 
 -- 문자열 조건
 -- LIKE
+-- % : 0개 이상의 문자와 일치
+-- _ : 정확히 1개의 문자와 일치
+-- MAN으로 끝나는 문자열
+SELECT * 
+  FROM employees
+ WHERE job_id LIKE '%MAN';
+ 
+-- Ra으로 시작하는 문자열
+SELECT * 
+  FROM employees
+ WHERE last_name LIKE 'Ra%';	-- 대소문자 구분함
+ 
+SELECT *
+  FROM employees
+ WHERE last_name LIKE 'Ra__'; -- 총 4글자 중 Ra로 시작하는 문자열을 찾아라
+
+SELECT *
+ FROM employees
+WHERE job_id LIKE '%MAN%'; -- MAN이 들어가는 문자열을 찾아라
+
+-- 조건이 2개일 경우 
+-- WHERE ( ) AND ( )
+SELECT first_name
+     , last_name
+     , phone_number
+     , hire_date
+     , salary
+  FROM employees
+ WHERE hire_date > '2005-01-01'
+   AND salary >= 10000;
+
+/* 정렬
+ * ORDER BY [ASC(오름차순)|DESC(내림차순)] */
+SELECT *
+  FROM employees
+ ORDER BY salary ASC;	-- ASC는 생략가능
+ 
+ SELECT *
+  FROM employees
+ ORDER BY job_id ASC, salary DESC;	
+
+/* 집합 - UNION, UNION ALL, INTERSECT, MINUS */
+-- 쿼리문 합쳐서 하나의 퀴리문으로 반드는 집합 연산자 UNION
+-- departments에서 departement_id가 50 이하인 부서아이디와 부서명 데이터
+-- employees에서 employee_id가 110에서 150 사이인 직원 아이디와 직원명(first_name || last_name)을 출력하시오
+SELECT department_id, department_name
+  FROM departments
+ WHERE department_id <= 50  -- 5행까지는 department_id
+ UNION
+SELECT employee_id, first_name || last_name AS "full_name"
+  FROM employees
+ WHERE employee_id BETWEEN 110 AND 150;  -- 6행부터 employee_id
+
 COMMIT;

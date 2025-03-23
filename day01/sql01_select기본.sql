@@ -169,11 +169,3 @@ SELECT employee_id, first_name || last_name AS "full_name"
   FROM employees
  WHERE employee_id BETWEEN 110 AND 150;  -- 6행부터 employee_id
 
-
-
-
-
-
-
-
-
