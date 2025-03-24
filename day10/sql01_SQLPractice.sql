@@ -108,6 +108,7 @@ SELECT department_id, job_id
 	 , to_char(sum(salary), '$99,999') AS "Sum Salary"
 	 , count(*) AS "Employees Cnt"
   FROM employees
+-- GROUP BY department_id, job_id;
  GROUP BY ROLLUP (department_id, job_id);
  
 
